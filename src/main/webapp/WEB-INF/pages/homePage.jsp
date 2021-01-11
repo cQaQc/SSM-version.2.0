@@ -21,7 +21,7 @@
     <div class="demoTable layui-form">
         <div class="layui-inline">
             <input class="layui-input"
-                   name="bname" id="bname" autocomplete="off"
+                   name="bookname" id="bookname" autocomplete="off"
                    placeholder="请输入书名">
         </div>
 
@@ -42,7 +42,7 @@
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="see">查看</a>
     <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="dele">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
 </script>
 
 <script>
@@ -60,9 +60,9 @@
 
     layui.use(['laydate', 'laypage', 'layer', 'table', ], function(){
         var laydate = layui.laydate //日期
-            ,laypage = layui.laypage //分页
             ,layer = layui.layer //弹层
             ,table = layui.table //表格
+
 
 
         //执行一个 table 实例
@@ -85,21 +85,40 @@
                 ,{field: 'detail', title: '详细信息', width: 100}
                 ,{fixed: 'right', width: 200, align:'center', toolbar: '#barDemo'}
             ]]
-            //用于搜索结果重载
-            ,id: 'testReload'
         });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var bname = $('#bookname');
+                var author = $('#author');
+
+                //执行重载
+                table.reload('demo', {
+                    //一定要加不然乱码
+                    method: 'post'
+                    ,page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        bname: bname.val(),
+                        author: author.val(),
+                    }
+                });
+            }
+        };
 
 
         //监听行工具事件
         table.on('tool(test)', function(obj){
-            //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                 ,layEvent = obj.event; //获得 lay-event 对应的值
             if(layEvent === 'see'){
-                    find(data);
-            } else if(layEvent === 'dele'){
-                layer.confirm('真的删除这一行数据么?', function(index){
+                layer.alert('编号: '+ data.bookID+'<br>书名: '+data.bookName+'<br>作者：'+data.author+'<br>库存: '+data.bookCounts+'<br>详细信息: '+data.detail);
+
+            } else if(layEvent === 'del'){
+                layer.confirm('真的删除这一行数据么?',{icon: 3}, function(index){
                     del(data.bookID,obj,index);
+                    layer.close(index);
                 });
             } else if(layEvent === 'edit'){
                     edit(data);
@@ -112,12 +131,12 @@
                 dataType:'json',
                 type:'post',
                 success:function (data) {
-                    if (data.success){
-                        obj.del(); //删除对应行（tr）的DOM结构
+                        console.log(data);
+                        var oldData = table.cache["demo"];                        obj.del(); //删除对应行（tr）的DOM结构
                         layer.close(index);
-                    }else{
-                        layer.msg(data.message);
-                    }
+                        layer.msg("删除成功",{time: 10},function(){
+                        table.reload('demo',{data : oldData});
+                    });
                 }
             })
         }
@@ -132,18 +151,6 @@
                 area: ['800px', '600px'], //宽高
                 method: 'post',
                 content: '/book/updatebook?'
-                    +'bookID='+data.bookID
-            });
-        }
-
-        function find(data){
-            layer.open({
-                type: 2,
-                title: '查看图书信息',
-                skin: 'layui-layer-demo', //加上边框
-                area: ['800px', '600px'], //宽高
-                method: 'post',
-                content: '/book/findbyid?'
                     +'bookID='+data.bookID
             });
         }

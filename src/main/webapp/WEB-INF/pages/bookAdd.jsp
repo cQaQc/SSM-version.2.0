@@ -9,7 +9,7 @@
     <h5>请添加---</h5>
     <form action="/book/addBook" method="post">
         <div>
-        <input type="text" name="bookName" required>
+        书名：<input type="text" name="bookName" required>
         </div>
         <div>
         <input type="text" name="counts" required>
