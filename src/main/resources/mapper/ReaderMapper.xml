@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kk.dao.ReaderMapper">
+
+
+    <!-- 1.学生登录验证-->
+    <select id="select" parameterType="reader" resultType="reader">
+        select name,pwd
+        from reader
+        where name=#{name}  and pwd=#{pwd}
+    </select>
+
+    <!-- 2.学生修改密码-->
+    <update id="altpwd" parameterType="reader" >
+        update reader
+        set pwd=#{pwd}
+        where id=#{id}
+    </update>
+
+
+</mapper>
