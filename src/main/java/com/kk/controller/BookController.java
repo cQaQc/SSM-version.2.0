@@ -8,7 +8,6 @@ import com.kk.pojo.Reader;
 import com.kk.service.AdminService;
 import com.kk.service.BookService;
 import com.kk.service.ReaderService;
-import com.kk.utils.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,10 +50,11 @@ public class BookController {
     // 3. 登录验证
     @RequestMapping("/dologin")
     @ResponseBody
-    public AjaxResult list(String name, int password, String access, HttpSession session){
-
-        AjaxResult ajaxResult = new AjaxResult();
-
+    public Map list(String name,
+                    String password,
+                    String access,
+                    HttpSession session){
+        HashMap<String, Object> verification = new HashMap<>();
         try{
             //1.管理员
             if(access.equals("0")){
@@ -65,10 +65,10 @@ public class BookController {
 
                 if(admin != null){
                     session.setAttribute("admin",admin);
-                    ajaxResult.setStu("0");
+                    verification.put("stu",0);
                 }else{
-                    ajaxResult.setStu("2");
-                    ajaxResult.setMsg("用户名或密码错误");
+                    verification.put("stu",2);
+                    verification.put("msg","用户名或密码错误");
                 }
             }
 
@@ -80,19 +80,19 @@ public class BookController {
                 Reader reader = readerService.select(rd);
                 if(reader != null){
                     session.setAttribute("reader",reader);
-                    ajaxResult.setStu("1");
+                    verification.put("stu",1);
                 }else{
-                    ajaxResult.setStu("2");
-                    ajaxResult.setMsg("用户名或密码错误");
+                    verification.put("stu",2);
+                    verification.put("msg","用户名或密码错误");
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
-            ajaxResult.setStu("8");
-            ajaxResult.setMsg("服务器异常,请改天登录");
+            verification.put("stu",3);
+            verification.put("msg","服务器异常,请改天登录");
         }
 
-        return ajaxResult;
+        return verification;
     }
 
 //    跳转到新增书籍页面
@@ -171,10 +171,17 @@ public class BookController {
 
 //    删除一本书籍
     @RequestMapping("/delebook")
-    public String deleteBook(int id, Model model){
-        System.out.println("books.id=>"+id);
-        bookService.deleteBook(id);
-        return "redirect:/book/homepage";
+    @ResponseBody
+    public String deleteBook(int bookID){
+        String msg="";
+        try{
+            bookService.deleteBook(bookID);
+            msg = "删除成功！";
+        }catch (Exception e){
+             e.printStackTrace();
+             msg = "删除失败";
+        }
+        return msg;
     }
 
 //    修改书本信息
@@ -184,4 +191,13 @@ public class BookController {
         System.out.println("books=>"+books);
         return "redirect:/book/homepage";
     }
+
+    //退出
+    @RequestMapping("/loginout")
+    public String loginout(HttpSession session){
+        //调用session.invalidate(),代表该session被删除，所有信息丢失
+        session.invalidate();
+        return "login";
+    }
+
 }

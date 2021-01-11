@@ -6,6 +6,6 @@ import lombok.Data;
 public class Reader {
     int id;
     String name;
-    int pwd;
+    String pwd;
     String major;
 }

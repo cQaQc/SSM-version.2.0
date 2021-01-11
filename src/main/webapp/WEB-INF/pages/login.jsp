@@ -63,11 +63,12 @@
                 dataType:'json',
 
                 success:function (data) {
-                    if (data.stu === '0'){
+                    console.log(data);
+                    if (data.stu == '0'){
                         location.href = "/book/homepage";
 
-                    }else if (data.stu === '1') {
-                        location.href = "/book/homepagefy";
+                    }else if (data.stu == '1') {
+                        location.href = "/book/homepage";
 
                     } else{
                         layer.msg(data.msg);
