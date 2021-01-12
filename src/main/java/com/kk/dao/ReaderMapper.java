@@ -5,5 +5,7 @@ import com.kk.pojo.Reader;
 public interface ReaderMapper {
     Reader select(Reader rd);
 
+    void add(Reader rd);
+
     void altpwd(Reader rd);
 }

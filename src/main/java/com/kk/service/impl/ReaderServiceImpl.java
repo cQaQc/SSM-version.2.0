@@ -11,13 +11,20 @@ public class ReaderServiceImpl implements ReaderService {
 
     @Autowired
     private ReaderMapper readerMapper;
+
     @Override
     public Reader select(Reader rd) {
     return readerMapper.select(rd);
     }
 
     @Override
+    public void add(Reader rd){
+        readerMapper.add(rd);
+    }
+
+
+    @Override
     public void altpwd(Reader rd) {
-readerMapper.altpwd(rd);
+        readerMapper.altpwd(rd);
     }
 }

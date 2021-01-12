@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/book")
-public class BookController {
+public class MyController {
 
     @Autowired
     private BookService bookService;
@@ -104,7 +104,7 @@ public class BookController {
         return "updateBook";
     }
 
-//   查找所有书籍
+//   4.主页面，书厅
     @RequestMapping("/homepage")
     public String ListBooks(Model model){
         List<Books> booksList = bookService.queryAllBook();
@@ -112,7 +112,7 @@ public class BookController {
         return "homePage";
     }
 
-    //展示图书表格，以layui固定的表格格式返回
+    //5.展示图书表格，以layui固定的表格格式返回
     @RequestMapping("/booklist")
     @ResponseBody
     public Map<String, Object> allBook(@RequestParam(defaultValue = "1", value = "page")
@@ -136,7 +136,7 @@ public class BookController {
     }
 
 
-    //    分页查找
+    /*//分页查找
     @RequestMapping("/homepagefy")
     public String fyBook(@RequestParam(defaultValue = "1", value = "pageNum")
                                      Integer pageNum,
@@ -149,8 +149,9 @@ public class BookController {
         modelMap.addAttribute("pageInfo",pages);
         return "homePageFY";
 }
+*/
 
-//    通过id查找一本书籍
+//    6.通过id查找一本书籍
     @RequestMapping("/findbyid")
     public String findById(int id, Model model){
         Books book = bookService.queryById(id);
@@ -158,13 +159,13 @@ public class BookController {
         return "findById";
     }
 
-    //    跳转到新增书籍页面
+    //   7. 跳转到新增书籍页面
     @RequestMapping("/toadd")
     public String toAddPage(){
         return "bookAdd";
     }
 
-//    添加一本书籍
+//   8. 添加一本书籍
     @RequestMapping("/addbook")
     @ResponseBody
     public Map addBook(Books book, Model model){
@@ -181,7 +182,7 @@ public class BookController {
         return hashMap;
     }
 
-//    删除一本书籍
+//   9. 删除一本书籍
     @RequestMapping("/delebook")
     @ResponseBody
     public Map deleteBook(int bookID){
@@ -198,7 +199,7 @@ public class BookController {
         return hashmap;
     }
 
-//    修改书本信息
+//   10. 修改书本信息
     @RequestMapping("/updatebook")
     public String updateBook(Books books){
         bookService.updateBook(books);
@@ -206,12 +207,21 @@ public class BookController {
         return "redirect:/book/homepage";
     }
 
-    //退出
+    //11.退出
     @RequestMapping("/loginout")
     public String loginout(HttpSession session){
         //调用session.invalidate(),代表该session被删除，所有信息丢失
         session.invalidate();
         return "login";
+    }
+
+    //12.注册存入
+    @RequestMapping("/regist")
+    public Map regist(Reader reader){
+        readerService.add(reader);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("msg","注册成功！即将跳往登录页面");
+        return map;
     }
 
 }

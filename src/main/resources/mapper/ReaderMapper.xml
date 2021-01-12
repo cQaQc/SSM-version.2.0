@@ -20,4 +20,10 @@
     </update>
 
 
+    <!-- 3.学生登录验证-->
+    <insert id="select" parameterType="reader">
+        insert into reader(sno,pwd,name,major,birth)
+        values(#{sno},#{pwd},#{name},#{major},#{birth});
+    </insert>
+
 </mapper>

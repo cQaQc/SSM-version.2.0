@@ -19,15 +19,9 @@
         <!--学号-->
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 85%">
-                <input type="text" id="user" name="reader_id" required
+                <input type="text" id="user" name="sno" required
                        lay-verify="required" placeholder="请输入学号" autocomplete="off"
                        class="layui-input">
-            </div>
-            <div class="layui-inline">
-                <i class="layui-icon" id="ri" style="color: green;font-weight: bolder;" hidden></i>
-            </div>
-            <div class="layui-inline">
-                <i class="layui-icon" id="wr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
             </div>
         </div>
         <!-- 密码 -->
@@ -36,14 +30,6 @@
                 <input type="password" id="pwd" name="password" required
                        lay-verify="required" placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
-            </div>
-            <!-- 对号 -->
-            <div class="layui-inline">
-                <i class="layui-icon" id="pri" style="color: green;font-weight: bolder;" hidden></i>
-            </div>
-            <!-- 错号 -->
-            <div class="layui-inline">
-                <i class="layui-icon" id="pwr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
             </div>
         </div>
         <!-- 确认密码 -->
@@ -73,15 +59,15 @@
         </div>
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 85%">
-                <input type="text" name="address" required
+                <input type="text" name="major" required
                        lay-verify="required" placeholder="xx级xx专业" autocomplete="off"
-                       class="layui-input">u
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 85%">
                 <div class="layui-input-inline">
-                    <input type="text" name="birthday"
+                    <input type="text" name="birth"
                            lay-verify="required" placeholder="出生日期" autocomplete="off"
                            class="layui-input" id="test1">
                 </div>
@@ -89,10 +75,10 @@
         </div>
         <div class="layui-input-inline login-btn" style="width: 85%">
             <button type="submit" lay-submit
-                    lay-filter="sub" class="layui-btn">注册</button>
+                    lay-filter="regist" class="layui-btn">注册</button>
         </div>
         <hr style="width: 85%" />
-        <p style="width: 85%"><a href="/book/toLogin" class="fl">已有账号？立即登录</a></p>
+        <p style="width: 85%"><a href="/book/tologin" class="fl">已有账号？立即登录</a></p>
     </form>
 </div>
 
@@ -111,31 +97,6 @@
 
         layer.tips('学号就是借阅号哦!', '#user');
 
-        //添加表单失焦事件,验证表单
-        $('#user').blur(function() {
-            var user = $(this).val();
-
-            //alert(user);
-            $.ajax({
-                url:'/checkReader',
-                type:'post',
-                dataType:'json',
-                data:{reader_id:user},
-                //验证用户名是否可用
-                success:function(data){
-                    if (data.success) {
-                        $('#ri').removeAttr('hidden');
-                        $('#wr').attr('hidden','hidden');
-                    } else {
-                        $('#wr').removeAttr('hidden');
-                        $('#ri').attr('hidden','hidden');
-                        layer.msg(data.message)
-                    }
-                }
-            })
-        });
-
-
         //验证两次密码是否一致
         $('#rpwd').blur(function() {
             if($('#pwd').val() != $('#rpwd').val()){
@@ -150,28 +111,19 @@
 
 
         //添加表单监听事件,提交注册信息
-        form.on('submit(sub)', function(data) {
-            if(!new RegExp("^1\\d{10}$").test(data.field.telephone)){
-                layer.msg("请输入11位电话号码");
-                return false;
-            }
+        form.on('submit(regist)', function(data) {
             if(!new RegExp("^[0-9]*$").test(data.field.reader_id)){
                 layer.msg("学号为数字哦!");
                 return false;
             }
-
             $.ajax({
-                url:'/submitAddReader',
+                url:'/book/regist',
                 data:data.field,
                 dataType:'json',
                 type:'post',
                 success:function(data){
-                    if (data.success) {
-                        layer.msg(data.message);
-                        location.href = "toLogin";
-                    }else {
-                        layer.msg(data.message);
-                    }
+                        layer.msg(data.msg);
+                        location.href = "/book/tologin";
                 }
             })
             //防止页面跳转

@@ -4,8 +4,10 @@ import lombok.Data;
 
 @Data
 public class Reader {
-    int id;
-    String name;
-    String pwd;
-    String major;
+    private int id;
+    private int sno;
+    private String pwd;
+    private String name;
+    private String major;
+    private String birth;
 }

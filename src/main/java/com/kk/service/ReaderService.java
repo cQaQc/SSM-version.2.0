@@ -6,5 +6,7 @@ import com.kk.pojo.Reader;
 public interface ReaderService {
     Reader select(Reader rd);
 
+    void add(Reader rd);
+
     void altpwd(Reader rd);
 }
