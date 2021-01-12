@@ -53,7 +53,7 @@
             title: '添加图书',
             skin: 'layui-layer-demo', //加上边框
             area: ['800px', '600px'], //宽高
-            content: '/book/addbook'
+            content: '/book/toadd'
         });
     }
 
@@ -118,7 +118,6 @@
             } else if(layEvent === 'del'){
                 layer.confirm('真的删除这一行数据么?',{icon: 3}, function(index){
                     del(data.bookID,obj,index);
-                    layer.close(index);
                 });
             } else if(layEvent === 'edit'){
                     edit(data);
@@ -131,12 +130,9 @@
                 dataType:'json',
                 type:'post',
                 success:function (data) {
-                        console.log(data);
-                        var oldData = table.cache["demo"];                        obj.del(); //删除对应行（tr）的DOM结构
-                        layer.close(index);
-                        layer.msg("删除成功",{time: 10},function(){
-                        table.reload('demo',{data : oldData});
-                    });
+                         obj.del(); //删除对应行（tr）的DOM结构
+                         layer.msg(data.msg,{time: 1000});
+                         layer.close(layui.index);
                 }
             })
         }

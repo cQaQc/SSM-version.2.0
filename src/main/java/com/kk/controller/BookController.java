@@ -95,11 +95,7 @@ public class BookController {
         return verification;
     }
 
-//    跳转到新增书籍页面
-    @RequestMapping("/toaddpage")
-    public String toAddPage(){
-        return "bookAdd";
-    }
+
 
     @RequestMapping("/toupdatepage")
     public String toUpdatePage(int id,Model model){
@@ -116,6 +112,7 @@ public class BookController {
         return "homePage";
     }
 
+    //展示图书表格，以layui固定的表格格式返回
     @RequestMapping("/booklist")
     @ResponseBody
     public Map<String, Object> allBook(@RequestParam(defaultValue = "1", value = "page")
@@ -161,32 +158,49 @@ public class BookController {
         return "findById";
     }
 
+    //    跳转到新增书籍页面
+    @RequestMapping("/toadd")
+    public String toAddPage(){
+        return "bookAdd";
+    }
+
 //    添加一本书籍
     @RequestMapping("/addbook")
-    public String addBook(Books books, Model model){
-        bookService.addBook(books);
-        model.addAttribute("book", books);
-        return "redirect:/book/homepage";
+    @ResponseBody
+    public Map addBook(Books book, Model model){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        try{
+            bookService.addBook(book);
+            hashMap.put("msg","添加成功！");
+            hashMap.put("code",0);
+        }catch (Exception e){
+            e.printStackTrace();
+            hashMap.put("msg","添加失败！");
+            hashMap.put("code",1);
+        }
+        return hashMap;
     }
 
 //    删除一本书籍
     @RequestMapping("/delebook")
     @ResponseBody
-    public String deleteBook(int bookID){
-        String msg="";
+    public Map deleteBook(int bookID){
+        HashMap<String, Object> hashmap = new HashMap<>();
         try{
             bookService.deleteBook(bookID);
-            msg = "删除成功！";
+            hashmap.put("msg","删除成功！");
+            hashmap.put("code",0);
         }catch (Exception e){
              e.printStackTrace();
-             msg = "删除失败";
+             hashmap.put("msg","删除失败！");
+            hashmap.put("code",1);
         }
-        return msg;
+        return hashmap;
     }
 
 //    修改书本信息
     @RequestMapping("/updatebook")
-    public String updateBook(Books books, Model model){
+    public String updateBook(Books books){
         bookService.updateBook(books);
         System.out.println("books=>"+books);
         return "redirect:/book/homepage";
