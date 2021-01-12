@@ -217,10 +217,11 @@ public class MyController {
 
     //12.注册存入
     @RequestMapping("/regist")
+    @ResponseBody
     public Map regist(Reader reader){
         readerService.add(reader);
         HashMap<String, Object> map = new HashMap<>();
-        map.put("msg","注册成功！即将跳往登录页面");
+        map.put("msg","注册成功！即将跳往登录页面...");
         return map;
     }
 

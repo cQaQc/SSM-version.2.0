@@ -112,7 +112,7 @@
 
         //添加表单监听事件,提交注册信息
         form.on('submit(regist)', function(data) {
-            if(!new RegExp("^[0-9]*$").test(data.field.reader_id)){
+            if(!new RegExp("^[0-9]*$").test(data.field.sno)){
                 layer.msg("学号为数字哦!");
                 return false;
             }
