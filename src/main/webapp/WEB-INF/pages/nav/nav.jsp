@@ -7,8 +7,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>导航栏</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
-    <script src="/layui/layui.js"></script>
-
 </head>
 
 <!-- 头部区域 layui水平导航栏 -->
@@ -16,16 +14,15 @@
 <div class="layui-header">
     <div class="layui-logo">图书管理系统</div>
     <ul class="layui-nav layui-layout-left">
-
         <c:if test="${admin!=null}">
-
-            <li class="layui-nav-item">
+            <li class="layui-nav-item" layui-this>
                 <a href="javascript:;">图书管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="/library/index">图书列表</a></dd>
-                    <dd><a href="/type/bookType">分类管理</a></dd>
+                    <dd><a href="">图书列表</a></dd>
+                    <dd><a href="">分类管理</a></dd>
                 </dl>
             </li>
+
             <li class="layui-nav-item"><a href="/reader/readerIndex">读者列表</a></li>
             <li class="layui-nav-item"><a href="/listDisBackAdmin">借阅管理</a></li>
             <li class="layui-nav-item"><a onclick="alterPwd('0');">修改密码</a></li>
@@ -33,7 +30,6 @@
 
 
         <c:if test="${reader!=null}">
-            <li class="layui-nav-item"><a href="library/frontIndex">图书列表</a></li>
             <li class="layui-nav-item"><a href="listDisBack">借阅记录</a></li>
             <li class="layui-nav-item"><a onclick="alterPwd('1');">修改密码</a></li>
         </c:if>
@@ -43,7 +39,7 @@
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
             <a href="javascript:;">
-                <img src="https://pic.cnblogs.com/avatar/2188008/20201020233049.png" class="layui-nav-img">
+                <img src="/layui/images/face/66.gif" class="layui-nav-img">
                 <c:if test="${admin!=null}">欢迎管理员：${admin.name}</c:if>
                 <c:if test="${reader!=null}">欢迎读者：${reader.name}</c:if>
             </a>
@@ -52,7 +48,13 @@
     </ul>
 </div>
 
+<script type="text/javascript" src="/layui/layui.js"></script>
 
+<script>
+    layui.use('element', function(){
+        const element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+    });
+</script>
 
 <script>
     function alterPwd(num){//添加

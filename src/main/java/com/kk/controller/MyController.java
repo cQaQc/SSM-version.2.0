@@ -219,6 +219,7 @@ public class MyController {
     @RequestMapping("/regist")
     @ResponseBody
     public Map regist(Reader reader){
+    System.out.println(reader);
         readerService.add(reader);
         HashMap<String, Object> map = new HashMap<>();
         map.put("msg","注册成功！即将跳往登录页面...");

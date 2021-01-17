@@ -27,7 +27,7 @@
         <!-- 密码 -->
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 85%">
-                <input type="password" id="pwd" name="password" required
+                <input type="password" id="pwd" name="pwd" required
                        lay-verify="required" placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
             </div>

@@ -17,7 +17,7 @@
     <form class="layui-form">
         <div class="layui-input-inline">
             <input type="text" name="name" required
-                   lay-verify="required" placeholder="学号" autocomplete="off"
+                   lay-verify="required" placeholder="用户名" autocomplete="off"
                    class="layui-input">
         </div>
         <div class="layui-input-inline">
