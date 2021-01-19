@@ -43,8 +43,10 @@
                 <c:if test="${admin!=null}">欢迎管理员：${admin.name}</c:if>
                 <c:if test="${reader!=null}">欢迎读者：${reader.name}</c:if>
             </a>
+            <dl class="layui-nav-child">
+                <dd><a href="/loginout">退出</a></dd>
+            </dl>
         </li>
-        <li class="layui-nav-item"><a href="/book/loginout">退出</a></li>
     </ul>
 </div>
 
