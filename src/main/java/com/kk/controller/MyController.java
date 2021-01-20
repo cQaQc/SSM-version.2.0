@@ -120,8 +120,8 @@ public class MyController {
                                  String bookname, String author) {
 
         HashMap<Object, Object> map = new HashMap<>();
-        if (!bookname.trim().isEmpty())  map.put("bookname",bookname);
-        if (!author.trim().isEmpty())  map.put("author",author);
+        if (bookname!=null)  map.put("bookname",bookname);
+        if (author!=null)  map.put("author",author);
 
         PageHelper.startPage(pageNum,pageSize);
         List<Books> booksList = bookService.queryAllBook(map);
@@ -137,21 +137,6 @@ public class MyController {
         return tableObj;
     }
 
-
-    /*//分页查找
-    @RequestMapping("/homepagefy")
-    public String fyBook(@RequestParam(defaultValue = "1", value = "pageNum")
-                                     Integer pageNum,
-                         ModelMap modelMap,
-                         @RequestParam(defaultValue = "5", value = "pageSize")
-                                     Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<Books> booksList = bookService.fyAllBook();
-        PageInfo<Books> pages = new PageInfo<>(booksList);
-        modelMap.addAttribute("pageInfo",pages);
-        return "homePageFY";
-}
-*/
 
 //    6.通过id查找一本书籍
     @RequestMapping("/findbyid")
@@ -170,7 +155,7 @@ public class MyController {
 //   8. 添加一本书籍
     @RequestMapping("/addbook")
     @ResponseBody
-    public Map addBook(Books book, Model model){
+    public Map addBook(Books book){
         HashMap<String, Object> hashMap = new HashMap<>();
         try{
             bookService.addBook(book);
@@ -201,12 +186,29 @@ public class MyController {
         return hashmap;
     }
 
-//   10. 修改书本信息
+//   10. 跳转到修改页面
+
+    @RequestMapping("/toupdate")
+    public String toupdate(int bookID,Model model){
+        Books book = bookService.queryById(bookID);
+        model.addAttribute("book",book);
+        return "updateBook";
+    }
+    //
     @RequestMapping("/updatebook")
-    public String updateBook(Books books){
-        bookService.updateBook(books);
-        System.out.println("books=>"+books);
-        return "redirect:/book/homepage";
+    @ResponseBody
+    public Map updateBook(Books books){
+        HashMap<Object, Object> hashmap = new HashMap<>();
+        try{
+            bookService.updateBook(books);
+            hashmap.put("msg","修改成功！");
+            hashmap.put("code",0);
+        }catch (Exception e){
+            e.printStackTrace();
+            hashmap.put("msg","修改失败！");
+            hashmap.put("code",1);
+        }
+        return hashmap;
     }
 
     //11.退出

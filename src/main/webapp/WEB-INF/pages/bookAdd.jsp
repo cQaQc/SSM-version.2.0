@@ -53,8 +53,8 @@
         </div>
     </div>
 
-        <button class="layui-btn" lay-submit="" lay-filter="addbook">立即添加</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        <button class="layui-btn" lay-submit lay-filter="addbook">立即添加</button>
+        <button type="reset" class="layui-btn" style="float: right">重置</button>
 
 
     </div>
@@ -89,32 +89,7 @@
                 }
             })
             return false;
-        }),
-
-            //修改ajax表单提交
-            form.on('submit(updatebook)',function (data) {
-                if(!new RegExp("^[0-9]*$").test(data.field.stock)){
-                    layer.msg("库存必须是数字!");
-                    return false;
-                }
-                $.ajax({
-                    url:'/library/updateBook',
-                    data:data.field,
-                    dataType:'json',
-                    type:'post',
-                    success:function (data) {
-                        if (data.success){
-                            layer.alert(data.message,function(){
-                                window.parent.location.reload();//刷新父页面
-                                parent.layer.close(index);//关闭弹出层
-                            });
-                        }else{
-                            layer.msg(data.message);
-                        }
-                    }
-                })
-                return false;
-            })
+        })
     });
 </script>
 

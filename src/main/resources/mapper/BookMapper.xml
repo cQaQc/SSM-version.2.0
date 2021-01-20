@@ -20,7 +20,7 @@
 
     <update id="updateBook" parameterType="books">
         update bookes
-        set bookName=#{bookName},bookCounts=#{bookCounts},detail=#{detail}
+        set bookName=#{bookName},bookCounts=#{bookCounts},author=#{author},detail=#{detail}
         where bookID=#{bookID};
     </update>
 
@@ -33,7 +33,7 @@
     <select id="queryAllBook" parameterType="map" resultType="books">
         select * from bookes
         <where>
-            <if test="bookname!=null"> and bookName LIKE concat("%",#{bookname},"%") </if>
+            <if test="bookname!=null">bookName LIKE concat("%",#{bookname},"%") </if>
             <if test="author!=null"> and author LIKE concat("%",#{author},"%") </if>
         </where>
     </select>
