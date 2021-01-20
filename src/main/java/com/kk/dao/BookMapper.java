@@ -3,6 +3,7 @@ package com.kk.dao;
 import com.kk.pojo.Books;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface BookMapper {
@@ -15,7 +16,7 @@ public interface BookMapper {
 
     Books queryById(int id);
 
-    List<Books> queryAllBook();
+    List<Books> queryAllBook(HashMap map);
 
     List<Books> fyAllBook();
 }

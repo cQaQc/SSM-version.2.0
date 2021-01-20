@@ -6,6 +6,7 @@ import com.kk.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -36,8 +37,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Books> queryAllBook() {
-        return bookDao.queryAllBook();
+    public List<Books> queryAllBook(HashMap map) {
+        return bookDao.queryAllBook(map);
     }
 
     @Override

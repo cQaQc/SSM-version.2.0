@@ -30,8 +30,12 @@
     </select>
 
 
-    <select id="queryAllBook" resultType="books">
+    <select id="queryAllBook" parameterType="map" resultType="books">
         select * from bookes
+        <where>
+            <if test="bookname!=null"> and bookName LIKE concat("%",#{bookname},"%") </if>
+            <if test="author!=null"> and author LIKE concat("%",#{author},"%") </if>
+        </where>
     </select>
 
 

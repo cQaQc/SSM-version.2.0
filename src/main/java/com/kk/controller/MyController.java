@@ -107,8 +107,6 @@ public class MyController {
 //   4.主页面，书厅
     @RequestMapping("/homepage")
     public String ListBooks(Model model){
-        List<Books> booksList = bookService.queryAllBook();
-        model.addAttribute("books", booksList);
         return "homePage";
     }
 
@@ -117,12 +115,16 @@ public class MyController {
     @ResponseBody
     public Map<String, Object> allBook(@RequestParam(defaultValue = "1", value = "page")
                                  Integer pageNum,
-                                       ModelMap modelMap,
                                        @RequestParam(defaultValue = "5", value = "limit")
-                                 Integer pageSize) {
+                                 Integer pageSize,
+                                 String bookname, String author) {
+
+        HashMap<Object, Object> map = new HashMap<>();
+        if (!bookname.trim().isEmpty())  map.put("bookname",bookname);
+        if (!author.trim().isEmpty())  map.put("author",author);
 
         PageHelper.startPage(pageNum,pageSize);
-        List<Books> booksList = bookService.queryAllBook();
+        List<Books> booksList = bookService.queryAllBook(map);
         PageInfo<Books> pageInfo = new PageInfo<>(booksList);
 
         // Layui table 组件要求返回的格式

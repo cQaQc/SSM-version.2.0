@@ -17,6 +17,7 @@
 <div class="layui-layout layui-layout-admin">
     <jsp:include page="/WEB-INF/pages/nav/nav.jsp" flush="true"/>
 <div style="height: 10px"></div>
+
     <!-- 搜索条件表单 -->
     <div class="demoTable layui-form">
         <div class="layui-inline">
@@ -84,28 +85,33 @@
                 ,{field: 'bookCounts', title: '库存', width: 100, sort: true}
                 ,{field: 'detail', title: '详细信息', width: 100}
                 ,{fixed: 'right', width: 200, align:'center', toolbar: '#barDemo'}
-            ]]
+            ]],
+            id: 'testReload'
         });
 
         var $ = layui.$, active = {
             reload: function(){
-                var bname = $('#bookname');
+                var bookname = $('#bookname');
                 var author = $('#author');
 
                 //执行重载
-                table.reload('demo', {
+                table.reload('testReload', {
                     //一定要加不然乱码
                     method: 'post'
                     ,page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     ,where: {
-                        bname: bname.val(),
+                        bookname: bookname.val(),
                         author: author.val(),
                     }
                 });
             }
         };
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
 
 
         //监听行工具事件

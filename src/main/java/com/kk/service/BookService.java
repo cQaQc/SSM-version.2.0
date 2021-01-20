@@ -2,6 +2,7 @@ package com.kk.service;
 
 import com.kk.pojo.Books;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface BookService {
@@ -14,7 +15,7 @@ public interface BookService {
 
     Books queryById(int id);
 
-    List<Books> queryAllBook();
+    List<Books> queryAllBook(HashMap map);
 
     List<Books> fyAllBook();
 }
