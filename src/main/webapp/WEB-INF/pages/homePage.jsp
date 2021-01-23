@@ -82,7 +82,7 @@
                 ,{field: 'bookID', title: '编号', width:80, sort: true}
                 ,{field: 'bookName', title: '书名', width:150}
                 ,{field: 'author', title: '作者', width: 100}
-                ,{field: 'bookCounts', title: '库存', width: 50, sort: true}
+                ,{field: 'bookCounts', title: '库存', width: 100, sort: true}
                 ,{field: 'detail', title: '详细信息', width: 200}
                 ,{fixed: 'right', width: 200, align:'center', toolbar: '#barDemo'}
             ]],

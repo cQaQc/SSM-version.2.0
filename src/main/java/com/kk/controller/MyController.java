@@ -256,9 +256,9 @@ public class MyController {
         }
         else if (num.equals("1")) {
             map.put("id",id);
-
             Reader reader1 = readerService.check(map);
             if (reader1.getPwd().equals(opwd)){
+        System.out.println(reader1);
                 map.put("code",0);
                 map.put("msg","密码正确");
             }else {

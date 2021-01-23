@@ -16,7 +16,7 @@
     <select id="check" parameterType="map" resultType="reader">
         select pwd
         from reader
-        where name=#{name}  and pwd=#{pwd}
+        where id=#{id}
     </select>
 
 
