@@ -7,12 +7,20 @@
 
     <!-- 1.学生登录验证-->
     <select id="select" parameterType="reader" resultType="reader">
-        select name,pwd
+        select *
         from reader
         where name=#{name}  and pwd=#{pwd}
     </select>
 
-    <!-- 2.学生修改密码-->
+    <!-- 2.密码验证-->
+    <select id="check" parameterType="map" resultType="reader">
+        select pwd
+        from reader
+        where name=#{name}  and pwd=#{pwd}
+    </select>
+
+
+    <!-- 3.学生修改密码-->
     <update id="altpwd" parameterType="reader" >
         update reader
         set pwd=#{pwd}
@@ -20,7 +28,7 @@
     </update>
 
 
-    <!-- 3.学生登录验证-->
+    <!-- 4.添加学生-->
     <insert id="add" parameterType="reader">
         insert into reader(sno,pwd,name,major,birth)
         values(#{sno},#{pwd},#{name},#{major},#{birth});

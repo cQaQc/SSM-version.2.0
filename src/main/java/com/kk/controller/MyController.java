@@ -187,14 +187,14 @@ public class MyController {
     }
 
 //   10. 跳转到修改页面
-
     @RequestMapping("/toupdate")
     public String toupdate(int bookID,Model model){
         Books book = bookService.queryById(bookID);
         model.addAttribute("book",book);
         return "updateBook";
     }
-    //
+
+    //修改书籍
     @RequestMapping("/updatebook")
     @ResponseBody
     public Map updateBook(Books books){
@@ -229,5 +229,64 @@ public class MyController {
         map.put("msg","注册成功！即将跳往登录页面...");
         return map;
     }
+
+    //跳转到修改密码界面
+    @RequestMapping("/toAlter")
+    public String toAlterpwd(Integer num, Model model) {
+        model.addAttribute("num",num);
+        return "alterPwd";
+    }
+
+
+    //检测密码是否正确
+    @RequestMapping("/check")
+    @ResponseBody
+    public Map<Object, Object> ckeckPwd(String num,String opwd,String adminId,String id) {
+        HashMap<Object, Object> map = new HashMap<>();
+        if (num.equals("0")) {
+            map.put("adminId",adminId);
+            Admin admin1 = adminService.check(map);
+            if (admin1.getPwd().equals(opwd)){
+                map.put("code",0);
+                map.put("msg","密码正确");
+            }else {
+                map.put("code",1);
+                map.put("msg","密码错误");
+            }
+        }
+        else if (num.equals("1")) {
+            map.put("id",id);
+
+            Reader reader1 = readerService.check(map);
+            if (reader1.getPwd().equals(opwd)){
+                map.put("code",0);
+                map.put("msg","密码正确");
+            }else {
+                map.put("code",1);
+                map.put("msg","密码错误");
+            }
+        }
+        return map;
+    }
+
+    //修改密码
+    @RequestMapping("/alterPwd")
+    @ResponseBody
+    public Map<Object, Object> alterPwd(String num, Admin admin, Reader reader) {
+        HashMap<Object, Object> map = new HashMap<>();
+        if (num.equals("0")) {
+            adminService.altpwd(admin);
+            map.put("code",0);
+            map.put("msg","修改成功");
+        }
+        else if (num.equals("1")) {
+            readerService.altpwd(reader);
+            map.put("code",0);
+            map.put("msg","修改成功");
+        }else map.put("msg","修改失败");
+        return map;
+    }
+
+
 
 }

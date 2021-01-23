@@ -15,14 +15,6 @@
     <div class="layui-logo">图书管理系统</div>
     <ul class="layui-nav layui-layout-left">
         <c:if test="${admin!=null}">
-            <li class="layui-nav-item" layui-this>
-                <a href="javascript:;">图书管理</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">图书列表</a></dd>
-                    <dd><a href="">分类管理</a></dd>
-                </dl>
-            </li>
-
             <li class="layui-nav-item"><a href="/reader/readerIndex">读者列表</a></li>
             <li class="layui-nav-item"><a href="/listDisBackAdmin">借阅管理</a></li>
             <li class="layui-nav-item"><a onclick="alterPwd('0');">修改密码</a></li>
@@ -44,13 +36,13 @@
                 <c:if test="${reader!=null}">欢迎读者：${reader.name}</c:if>
             </a>
             <dl class="layui-nav-child">
-                <dd><a href="/loginout">退出</a></dd>
+                <dd><a href="/book/loginout">退出</a></dd>
             </dl>
         </li>
     </ul>
 </div>
 
-<script type="text/javascript" src="/layui/layui.js"></script>
+<script src="/layui/layui.js"></script>
 
 <script>
     layui.use('element', function(){
@@ -66,7 +58,7 @@
             skin: 'layui-layer-demo', //加上边框
             area: ['500px', '300px'], //宽高
             offset:'rt', //坐标
-            content: '/toAlterpwdPage?state='+num
+            content: '/book/toAlter?num='+num
         });
     }
 </script>

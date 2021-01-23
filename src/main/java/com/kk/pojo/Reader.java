@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 @Data
 public class Reader {
-    private int id;
+    private String id;
     private BigInteger sno;
     private String pwd;
     private String name;

@@ -22,14 +22,6 @@
     <div class="layui-form-item">
 
         <div class="layui-inline">
-            <label class="layui-form-label">编号：</label>
-            <div class="layui-input-inline">
-                <input type="text" name="bookID" lay-verify="required" hidden
-                       autocomplete="off" class="layui-input" value="${book.bookID}">
-            </div>
-        </div>
-
-        <div class="layui-inline">
             <label class="layui-form-label">书名：</label>
             <div class="layui-input-inline">
                 <input type="text" name="bookName" lay-verify="required"
@@ -50,6 +42,14 @@
             <div class="layui-input-inline">
                 <input type="text" name="bookCounts"
                        lay-verify="required"  autocomplete="off" class="layui-input" value="${book.bookCounts}">
+            </div>
+        </div>
+
+
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <input type="hidden" name="bookID" lay-verify="required"
+                       autocomplete="off" class="layui-input" value="${book.bookID}">
             </div>
         </div>
 

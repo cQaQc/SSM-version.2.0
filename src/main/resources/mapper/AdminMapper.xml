@@ -7,12 +7,19 @@
 
     <!-- 1.管理员登录验证-->
     <select id="select" parameterType="admin" resultType="admin">
-        select name,pwd
+        select *
         from admins
         where name=#{name}  and pwd=#{pwd}
     </select>
 
-    <!-- 2.管理员修改密码-->
+    <!-- 2.检验密码-->
+    <select id="check" parameterType="map" resultType="admin">
+    select pwd
+    from admins
+    where adminId=#{adminId}
+    </select>
+
+    <!-- 3.管理员修改密码-->
     <update id="altpwd" parameterType="admin" >
         update admins
         set pwd=#{pwd}

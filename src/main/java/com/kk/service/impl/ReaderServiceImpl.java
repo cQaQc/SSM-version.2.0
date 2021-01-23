@@ -6,6 +6,8 @@ import com.kk.service.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class ReaderServiceImpl implements ReaderService {
 
@@ -20,6 +22,11 @@ public class ReaderServiceImpl implements ReaderService {
     @Override
     public void add(Reader rd){
         readerMapper.add(rd);
+    }
+
+    @Override
+    public Reader check(Map map) {
+        return readerMapper.check(map);
     }
 
 
