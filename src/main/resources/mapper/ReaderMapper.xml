@@ -34,4 +34,13 @@
         values(#{sno},#{pwd},#{name},#{major},#{birth});
     </insert>
 
+    <!--5.删除学生信息-->
+    <delete id="del" parameterType="int">
+        delete from reader where id=#{id}
+    </delete>
+
+    <select id="allReader" resultType="reader">
+        select * from reader
+    </select>
+
 </mapper>

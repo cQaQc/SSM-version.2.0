@@ -15,7 +15,7 @@
     <div class="layui-logo">图书管理系统</div>
     <ul class="layui-nav layui-layout-left">
         <c:if test="${admin!=null}">
-            <li class="layui-nav-item"><a href="/reader/readerIndex">读者列表</a></li>
+            <li class="layui-nav-item"><a href="/book/toReader">读者列表</a></li>
             <li class="layui-nav-item"><a href="/listDisBackAdmin">借阅管理</a></li>
             <li class="layui-nav-item"><a onclick="alterPwd('0');">修改密码</a></li>
         </c:if>

@@ -286,6 +286,46 @@ public class MyController {
         return map;
     }
 
+    //跳转到读者列表
+    @RequestMapping("toReader")
+    public String toReader(){
+        return "readerList";
+    }
+
+    //读者列表
+    @RequestMapping("/readerList")
+    @ResponseBody
+    public Map<String, Object> allReader(@RequestParam(defaultValue = "1", value = "page")
+                                               Integer pageNum,
+                                       @RequestParam(defaultValue = "5", value = "limit")
+                                               Integer pageSize,
+                                       Reader reader) {
+        HashMap<Object, Object> map = new HashMap<>();
+
+        PageHelper.startPage(pageNum,pageSize);
+        List list = readerService.allReader();
+        PageInfo<Reader> pageInfo = new PageInfo<>(list);
+
+        // Layui table 组件要求返回的格式
+        HashMap<String, Object> tableObj = new HashMap<>();
+        tableObj.put("code", 0);
+        tableObj.put("msg", "");
+        tableObj.put("count",pageInfo.getTotal());
+        tableObj.put("data",list);
+
+        return tableObj;
+    }
+
+
+    //删除读者信息
+    @RequestMapping("/readerDel")
+    @ResponseBody
+    public Map del(int id){
+        HashMap<Object, Object> map = new HashMap<>();
+        readerService.del(id);
+        map.put("msg","删除成功");
+        return map;
+    }
 
 
 }

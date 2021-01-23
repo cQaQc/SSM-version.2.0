@@ -6,6 +6,7 @@ import com.kk.service.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -33,5 +34,15 @@ public class ReaderServiceImpl implements ReaderService {
     @Override
     public void altpwd(Reader rd) {
         readerMapper.altpwd(rd);
+    }
+
+    @Override
+    public void del(int id) {
+        readerMapper.del(id);
+    }
+
+    @Override
+    public List allReader() {
+        return readerMapper.allReader();
     }
 }
