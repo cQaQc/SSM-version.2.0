@@ -16,13 +16,13 @@
     <ul class="layui-nav layui-layout-left">
         <c:if test="${admin!=null}">
             <li class="layui-nav-item"><a href="/book/toReader">读者列表</a></li>
-            <li class="layui-nav-item"><a href="/listDisBackAdmin">借阅管理</a></li>
+            <li class="layui-nav-item"><a href="/book/toHistory">借阅记录</a></li>
             <li class="layui-nav-item"><a onclick="alterPwd('0');">修改密码</a></li>
         </c:if>
 
 
         <c:if test="${reader!=null}">
-            <li class="layui-nav-item"><a href="listDisBack">借阅记录</a></li>
+            <li class="layui-nav-item"><a href="/book/toLendHistory">借阅记录</a></li>
             <li class="layui-nav-item"><a onclick="alterPwd('1');">修改密码</a></li>
         </c:if>
     </ul>

@@ -68,7 +68,7 @@
                         location.href = "/book/homepage";
 
                     }else if (data.stu == '1') {
-                        location.href = "/book/homepage";
+                        location.href = "/book/toHomepageRe";
 
                     } else{
                         layer.msg(data.msg);

@@ -3,10 +3,11 @@
         PUBLIC
         "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
 <!--一个mapper对应一个接口,( namespace )-->
-
-
+<!--bookes-->
 <mapper namespace="com.kk.dao.BookMapper">
+
     <insert id="addBook" parameterType="books">
         insert into bookes(bookName,author,bookCounts,detail)
         values(#{bookName},#{author},#{bookCounts},#{detail});
@@ -24,9 +25,14 @@
         where bookID=#{bookID};
     </update>
 
+    <update id="minusOne">
+        update bookes
+        set bookCounts=bookCounts-1
+        where bookID=#{bookID};
+    </update>
 
     <select id="queryById" parameterType="int" resultType="books">
-        select * from bookes where bookID=#{bookID};
+        select * from bookes where bookID=#{id};
     </select>
 
 
@@ -42,6 +48,40 @@
     <select id="fyAllBook" resultType="books">
         select * from bookes
     </select>
+
+    <!--lendhistory-->
+    <select id="lendHistory" parameterType="string" resultType="lendHistory">
+        select * from lendhistory where name=#{user}
+    </select>
+
+    <select id="queryAll" resultType="lendHistory">
+        select * from lendhistory
+    </select>
+
+    <insert id="addLendHis" parameterType="books">
+        insert into lendhistory(name,bookID,bookName,lendTime)
+        values(#{name},#{bookID},#{bookName},#{lendTime});
+    </insert>
+
+
+
+    <!--lendbook-->
+    <select id="lendBook" resultType="books">
+        select * from lendbook
+    </select>
+
+    <select id="queryLenById" parameterType="int" resultType="books">
+        select * from lendbook where bookID=#{id}
+    </select>
+
+    <insert id="addLendBook" parameterType="books">
+        insert into lendbook(bookID,bookName,author,bookCounts,detail)
+        values(#{bookID},#{bookName},#{author},#{bookCounts},#{detail});
+    </insert>
+
+    <delete id="deleteLend" parameterType="int">
+        delete from lendbook where bookID=#{id};
+    </delete>
 
 
 </mapper>

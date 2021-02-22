@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kk.pojo.Admin;
 import com.kk.pojo.Books;
+import com.kk.pojo.LendHistory;
 import com.kk.pojo.Reader;
 import com.kk.service.AdminService;
 import com.kk.service.BookService;
@@ -11,16 +12,17 @@ import com.kk.service.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.SimpleFormatter;
 
 @Controller
 @RequestMapping("/book")
@@ -143,7 +145,7 @@ public class MyController {
     public String findById(int id, Model model){
         Books book = bookService.queryById(id);
         model.addAttribute("book", book);
-        return "findById";
+        return "lendHistory";
     }
 
     //   7. 跳转到新增书籍页面
@@ -287,9 +289,14 @@ public class MyController {
     }
 
     //跳转到读者列表
-    @RequestMapping("toReader")
+    @RequestMapping("/toReader")
     public String toReader(){
         return "readerList";
+    }
+
+    @RequestMapping("/toHomepageRe")
+    public String toHomepageReader(){
+        return "homepageReader";
     }
 
     //读者列表
@@ -324,6 +331,109 @@ public class MyController {
         HashMap<Object, Object> map = new HashMap<>();
         readerService.del(id);
         map.put("msg","删除成功");
+        return map;
+    }
+
+    //跳到借阅历史记录
+    @RequestMapping("/toLendHistory")
+    public String toLend(){
+        return "lendHistory";
+    }
+
+    //借阅
+    @RequestMapping("/lend")
+    @ResponseBody
+    public Map lendBook(Books book,HttpSession session){
+        HashMap<Object, Object> map = new HashMap<>();
+        Books findBook = bookService.queryById(book.getBookID());
+        Books lendBook = bookService.queryLenById(book.getBookID());
+        if (findBook.getBookCounts()==0){
+            map.put("status",0);
+            return map;
+        }else if (findBook.getBookCounts()>0){
+            if (lendBook==null){
+                bookService.addLendBook(findBook);
+                Reader reader = (Reader) session.getAttribute("reader");
+                LendHistory lendHistory = new LendHistory();
+
+                lendHistory.setName(reader.getName());
+                lendHistory.setBookID(findBook.getBookID());
+                lendHistory.setBookName(findBook.getBookName());
+                lendHistory.setLendTime(String.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+                bookService.addLendHis(lendHistory);
+                bookService.minusOne();
+                map.put("status",1);
+
+            }
+            else if (lendBook!=null && lendBook.getBookName().equals(findBook.getBookName()) && lendBook.getBookID()==findBook.getBookID()){
+                map.put("status",2);
+            }
+        }
+        return map;
+    }
+
+
+    //历史记录借阅
+    @RequestMapping("/lendHistory")
+    @ResponseBody
+    public Map lendHistory(@RequestParam(defaultValue = "1", value = "page")
+                                       Integer pageNum,
+                           @RequestParam(defaultValue = "5", value = "limit")
+                                       Integer pageSize,
+                           Reader reader,
+                           HttpSession session){
+
+        PageHelper.startPage(pageNum,pageSize);
+        Reader attribute = (Reader) session.getAttribute("reader");
+        String user = attribute.getName();
+
+        List<LendHistory> list = bookService.lendHistory(user);
+        PageInfo<LendHistory> pageInfo = new PageInfo(list);
+
+        HashMap<Object, Object> tableObj = new HashMap<>();
+        tableObj.put("code", 0);
+        tableObj.put("msg", "");
+        tableObj.put("count",pageInfo.getTotal());
+        tableObj.put("data",list);
+
+        return tableObj;
+    }
+
+    //跳到借阅历史记录
+    @RequestMapping("/toHistory")
+    public String toBack(){
+        return "backBookAdmin";
+    }
+
+    @RequestMapping("/lendHistoryAdmin")
+    @ResponseBody
+    public Map lendHistoryAdmin(@RequestParam(defaultValue = "1", value = "page")
+                                   Integer pageNum,
+                           @RequestParam(defaultValue = "5", value = "limit")
+                                   Integer pageSize){
+
+        PageHelper.startPage(pageNum,pageSize);
+
+        List<LendHistory> list = bookService.queryAll();
+        PageInfo<LendHistory> pageInfo = new PageInfo(list);
+
+        HashMap<Object, Object> tableObj = new HashMap<>();
+        tableObj.put("code", 0);
+        tableObj.put("msg", "");
+        tableObj.put("count",pageInfo.getTotal());
+        tableObj.put("data",list);
+
+        return tableObj;
+    }
+
+
+    @RequestMapping("/backBook")
+    @ResponseBody
+    public Map backBook(){
+        HashMap<Object, Object> map = new HashMap<>();
+
+
+
         return map;
     }
 
